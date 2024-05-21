@@ -22,17 +22,24 @@ public class TimClient {
         // Joins a multicast group
         chatMulticastSocket.joinGroup(group);
 
-        // Prompt a user to enter a message
-        String msg = "";
-        System.out.println("Type a message for the server: ");
-        BufferedReader br =
-                new BufferedReader(new InputStreamReader(System.in));
-        msg = br.readLine();
+        // Type in mathematical expression
+        System.out.println("Type a mathematical expression: ");
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String msg = br.readLine();
 
         // Send the message to Multicast address
         DatagramPacket data = new DatagramPacket(msg.getBytes(), 0,
                 msg.length(), group, portnumber);
         chatMulticastSocket.send(data);
+
+        // Receive the response from the server
+        byte[] buf = new byte[1024];
+        DatagramPacket response = new DatagramPacket(buf, buf.length);
+        chatMulticastSocket.receive(response);
+        String result = new String(response.getData(), 0, response.getLength());
+
+        // Show the result
+        System.out.println(msg + " = " + result);
 
         // Close the socket
         chatMulticastSocket.close();
