@@ -42,6 +42,7 @@ public class TimClient {
         System.out.println(msg + " = " + result);
 
         // Close the socket
+        chatMulticastSocket.leaveGroup(group);
         chatMulticastSocket.close();
     }
 }
