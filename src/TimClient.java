@@ -3,7 +3,7 @@ import java.io.*;
 
 public class TimClient {
 
-    public static void main(String args[])
+    public static void main(String[] args)
             throws Exception {
 
 // Default port number we are going to use
@@ -13,7 +13,7 @@ public class TimClient {
         }
 
 // Create a MulticastSocket
-        MulticastSocket chatMulticastSocket = new MulticastSocket(portnumber);
+        MulticastSocket chatMulticastSocket = new MulticastSocket();
 
 // Determine the IP address of a host, given the host name
         InetAddress group =
@@ -28,7 +28,7 @@ public class TimClient {
         String msg = br.readLine();
 
         // Send the message to Multicast address
-        DatagramPacket data = new DatagramPacket(msg.getBytes(), 0,
+        DatagramPacket data = new DatagramPacket(msg.getBytes(),
                 msg.length(), group, portnumber);
         chatMulticastSocket.send(data);
 
@@ -39,7 +39,7 @@ public class TimClient {
         String result = new String(response.getData(), 0, response.getLength());
 
         // Show the result
-        System.out.println(msg + " = " + result);
+        System.out.println("Response: " + result);
 
         // Close the socket
         chatMulticastSocket.leaveGroup(group);
